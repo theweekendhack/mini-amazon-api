@@ -1,6 +1,6 @@
 # In Class Mini-Amazon RESTful API (Back-End)
 
-This RESTful API was built in accordance to MVC 2.0 Design Pattern (MVC with a Service layer). It has end points that will client applications to do the following :
+This RESTful API was built in accordance to MVC 2.0 Design Pattern (MVC with a Service layer). It has end points that will allow client applications to do the following :
 
 ## Products
 1. Get all products  -   GET /products
