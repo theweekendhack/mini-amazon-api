@@ -4,12 +4,6 @@ exports.getProductListing =(req,res,next)=>{
 
 
 
-
-    
-    /*
-        1. next()
-        2. Return response to the client
-    */
     res.json({
         message : "A list of all the products in the database",
         data : productModel.getAllProducts(),

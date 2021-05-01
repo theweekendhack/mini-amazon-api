@@ -5,57 +5,109 @@ const userModel = require("../model/UserModel.js");
 
 exports.getUserListing =(req,res)=>{
 
+    /*  
 
+        SELECT * 
+        FROM user;
 
-    res.json({
-        message : "A list of all the users in the database",
-        data : userModel.getAllUsers(),
-        total: userModel.getAllUsers().length 
-    })
-};
-
-
-//GET /users/948
-exports.getSingleUser = (req,res)=>{
-
-    //x, y, z
-    const id = parseInt(req.params.id);
-    console.log(id)
-
-    const userFound = userModel.getAUser(id)
-
-    console.log(userFound)
-    if(userFound != undefined)
-    {
+    */
+    
+    userModel.find()
+    .then((users)=>{
+        
         res.json({
-            message : `Details of product with the id ${userFound.id}}`,
-            data:userFound
+            message : "A list of all the users in the database",
+            data : users,
+            total: users.length 
         })
-    }
 
-    else
-    {
-        res.status(404).json({
-            message : `Product with id ${id} was not found`
-        })
-    }
+      
+    })
+    .catch(err=>{
+
+        res.status(500).json({
+            message : `Error ${err}`,
+        })  
+    })
+    
+
+
+
+
 
 };
 
 
 exports.addAUser=(req,res)=>{
 
-   
-     const postedData = req.body;
 
-    userModel.createAUser(postedData);
+    const data = req.body;
 
-    res.json({
-        message: `The user was successfully created`,
-        data : req.body
+    const newUser = new userModel(data);
+
+    newUser.save() //this will trigger a promise
+
+    .then((user)=>{
+        res.json({
+            message: `The user was successfully created`,
+            data : user
+        })
     })
+   .catch(err=>{
+
+        res.status(500).json({
+            message : `Error ${err}`,
+        })  
+    }) 
 
 };
+
+
+
+//GET /users/948
+exports.getSingleUser = (req,res)=>{
+   
+
+    /*
+        SElECT *
+        FROM user
+        where _id = req.params.id
+
+    */
+
+    userModel.findById(req.params.id)
+    .then((user)=>{
+        
+
+        if(user)
+        {
+            res.json({
+                message : `User with the id ${user._id}`,
+                data : user 
+            })
+        }
+
+        else
+        {
+            res.status(404).json({
+                message  :`No user found with id, ${req.params.id}`
+            })
+        }
+
+
+    })
+    .catch(err=>{
+
+        res.status(500).json({
+            message : `Error ${err}`,
+        })  
+    })
+
+
+
+
+};
+
 
 
 
