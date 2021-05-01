@@ -1,16 +1,16 @@
 const express = require("express");
-
-
+const cors = require("cors");
 const productController  = require("./controllers/ProductController.js");
 const userController  = require("./controllers/UserController.js");
 const authController  = require("./controllers/AuthController.js");
 
-
 const app = express();
 
-//TELLS EXPRESS HOW TO PARSE() INCOMMING JSON DATA!!~!!
 app.use(express.json());
 
+app.use(cors({
+    origin :"http://127.0.0.1:5500"
+}));
 
 //GET localhost:3000/users/
 app.use("/users",userController);

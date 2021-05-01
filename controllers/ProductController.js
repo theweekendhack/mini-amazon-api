@@ -1,13 +1,20 @@
 const express = require('express')
 const router = express.Router();
 
-router.post("/products",(req,res)=>{
 
-    res.json({
-        message:"Product was created"
-    })
-})
+const productService = require("../services/ProductService.js");
 
 
 
-module.exports = router;
+
+router.get("/",productService.getProductListing);
+
+router.get("/:id",productService.getSingleProduct);
+
+router.post("/", productService.addAProduct);
+
+router.put("/:id",productService.updateAProduct);
+
+router.delete("/:id",productService.deleteAProduct);
+
+module.exports=router;
