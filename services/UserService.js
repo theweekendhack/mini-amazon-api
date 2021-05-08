@@ -5,14 +5,8 @@ const userModel = require("../model/UserModel.js");
 
 exports.getUserListing =(req,res)=>{
 
-    /*  
 
-        SELECT * 
-        FROM user;
-
-    */
-    
-    userModel.find()
+    userModel.find()  /*6000*/
     .then((users)=>{
         
         res.json({
@@ -32,9 +26,6 @@ exports.getUserListing =(req,res)=>{
     
 
 
-
-
-
 };
 
 
@@ -48,9 +39,16 @@ exports.addAUser=(req,res)=>{
     newUser.save() //this will trigger a promise
 
     .then((user)=>{
+       
+       
+       
+       
         res.json({
             message: `The user was successfully created`,
             data : user
+       
+       
+       
         })
     })
    .catch(err=>{
@@ -60,6 +58,11 @@ exports.addAUser=(req,res)=>{
         })  
     }) 
 
+
+
+    //TWILLIO 
+
+       //SEND GRID
 };
 
 

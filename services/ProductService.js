@@ -1,59 +1,70 @@
 const productModel = require("../model/ProductModel.js");
 
+
 exports.getProductListing =(req,res,next)=>{
+  
+    productModel.find()
+    .sort({title:-1})
+    .then((products)=>{
+
+        res.json({
+            message : "A list of all the products in the database",
+            data : products,
+            total: products.length 
+        })
 
 
-
-    res.json({
-        message : "A list of all the products in the database",
-        data : productModel.getAllProducts(),
-        total: productModel.getAllProducts().length
     })
-    
-    next();
+    .catch(err=>{
+
+        res.status(500).json({
+            message : `Error ${err}`,
+        }) 
+
+    })
    
+};
+
+
+
+exports.addAProduct=(req,res)=>{
+
+
+
+    const data = req.body
+
+
+    const newProduct = new productModel(data);
+
+    newProduct.save() //this will trigger a promise
+
+    .then((product)=>{
+       
+        res.json({
+            message: `The product was successfully created`,
+            data : product
+        })
+    })
+   .catch(err=>{
+
+        res.status(500).json({
+            message : `Error ${err}`,
+        })  
+    }) 
+
+ 
+
 };
 
 //GET /users/948
 exports.getSingleProduct = (req,res,)=>{
 
-    const id = parseInt(req.params.id);
-    console.log(id)
-
-    const productFound = productModel.getAProduct(id)
-
-    console.log(productFound)
-    if(productFound != undefined)
-    {
-        res.json({
-            message : `Details of product with the id ${productFound.id}}`,
-            data:productFound
-        })
-    }
-
-    else
-    {
-        res.status(404).json({
-            message : `Product with id ${id} was not found`
-        })
-    }
+  
 
 };
 
 
-exports.addAProduct=(req,res)=>{
 
-    //NEVER TRUST THE DATA THAT COMES FROM A USER!!!! ()
-    productModel.createAProduct(req.body);
-
-    //sendGridAPI
-
-    res.json({
-        message: `The user was successfully created`,
-        data : req.body
-    })
-
-};
 
 
 exports.updateAProduct = (req,res)=>{
